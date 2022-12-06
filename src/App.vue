@@ -6,17 +6,22 @@
           :max="maxValue"
       />
     </div>
+
+    <div class="multiline-ellipsis">
+      <UiMultilineEllipsis
+          string="Компонент Multiline ellipsis. Реализовать компонент, который обрезает длинный текст до размеров блока и добавляет '...' на конце."
+      />
+    </div>
   </div>
 </template>
 
 <script>
-import UiProgressBar from './components/ui/UiProgressBar.vue'
+import UiProgressBar from '@/components/ui/UiProgressBar.vue'
+import UiMultilineEllipsis from '@/components/ui/UiMultilineEllipsis.vue'
 
 export default {
   name: 'App',
-  components: {
-    UiProgressBar
-  },
+  components: {UiProgressBar, UiMultilineEllipsis},
   data() {
     return {
       currentValue: 10,
@@ -45,11 +50,17 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+  margin-top: 20vh;
 }
 
 .progress-bar {
   max-width: 350px;
   margin: 0 auto;
+}
+
+.multiline-ellipsis {
+  width: 350px;
+  height: 40px;
+  margin: 100px auto 0;
 }
 </style>

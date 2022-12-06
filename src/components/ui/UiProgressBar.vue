@@ -1,12 +1,11 @@
 <template>
   <div class="ui-progress-bar" ref="progressBar">
-    <div class="ui-progress-bar__progress" ref="progressBoat"
-         :style="boatPositionStyle">
-      <div class="ui-progress-bar__number">{{ current }}</div>
-      <img class="ui-progress-bar__boat" ref="progressBoatImg" src="@/assets/boat.svg" alt="sailboat">
+    <div class="ui-progress-bar__cursor" ref="progressBoat" :style="boatPositionStyle">
+      <div class="ui-progress-bar__cursor-value">{{ current }}</div>
+      <img class="ui-progress-bar__cursor-icon" ref="progressBoatImg" src="@/assets/boat.svg" alt="sailboat">
     </div>
-    <div class="ui-progress-bar__curve">
-      <div class="progress" :style="{width: `${progressPosition}%`}"></div>
+    <div class="ui-progress-bar__scale">
+      <div class="ui-progress-bar__scale-value" :style="{width: `${progressPosition}%`}"></div>
     </div>
   </div>
 </template>
@@ -67,13 +66,13 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .ui-progress-bar {
   position: relative;
   padding-top: 44px;
 }
 
-.ui-progress-bar__progress {
+.ui-progress-bar__cursor {
   position: absolute;
   bottom: 12px;
   display: inline-flex;
@@ -82,32 +81,32 @@ export default {
   justify-content: flex-end;
 }
 
-.ui-progress-bar__number {
+.ui-progress-bar__cursor-value {
   font-size: 12px;
 }
 
-.ui-progress-bar__boat {
+.ui-progress-bar__cursor-icon {
   display: inline-block;
 }
 
-.ui-progress-bar__curve {
+.ui-progress-bar__scale {
   position: relative;
   width: 100%;
   height: 15px;
   padding-top: 5px;
+
+  &:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    background: url('@/assets/wave.png') bottom left / contain repeat;
+  }
 }
 
-.ui-progress-bar__curve:after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 5px;
-  background: url('@/assets/wave.png') bottom left / contain repeat;
-}
-
-.progress {
+.ui-progress-bar__scale-value {
   position: absolute;
   left: 0;
   bottom: 0;
