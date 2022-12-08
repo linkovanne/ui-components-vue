@@ -59,8 +59,8 @@ export default {
 }
 
 .multiline-ellipsis {
-  width: 350px;
-  height: 40px;
+  width: 50%;
+  height: 10vh;
   margin: 100px auto 0;
 }
 </style>
