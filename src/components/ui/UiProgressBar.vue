@@ -67,6 +67,18 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@keyframes movingFlare {
+  0% {
+    left: -100px;
+  }
+  30% {
+    left: 110%;
+  }
+  100% {
+    left: 110%;
+  }
+}
+
 .ui-progress-bar {
   position: relative;
   padding-top: 44px;
@@ -94,8 +106,9 @@ export default {
   width: 100%;
   height: 15px;
   padding-top: 5px;
+  overflow: hidden;
 
-  &:after {
+  &:before {
     content: '';
     position: absolute;
     top: 0;
@@ -103,6 +116,20 @@ export default {
     width: 100%;
     height: 5px;
     background: url('@/assets/wave.png') bottom left / contain repeat;
+  }
+
+  &:after {
+    content: '';
+    position: absolute;
+    left: -40px;
+    top: 0;
+    z-index: 1;
+    width: 100px;
+    height: 15px;
+    display: block;
+    background: #fff;
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.5));
+    animation: movingFlare 3s ease-in-out 0.05s infinite;
   }
 }
 

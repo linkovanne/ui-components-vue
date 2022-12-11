@@ -1,16 +1,15 @@
 <template>
-  <div class="ui-multiline-ellipsis">
-    <span class="ui-multiline-ellipsis__to-check">M</span>
-    <div class="ui-multiline-ellipsis__inner" :style="styles">{{ string }}</div>
+  <div class="ui-multiline-ellipsis" ref="multilineEllipsis">
+    <span class="ui-multiline-ellipsis__to-check" ref="multilineEllipsisToCheck">M</span>
+    <div class="ui-multiline-ellipsis__inner" :style="styles">
+      <slot></slot>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
   name: 'UiMultilineEllipsis',
-  props: {
-    string: {type: String, required: true, default: ''},
-  },
   data() {
     return {
       styles: {},
@@ -25,8 +24,9 @@ export default {
   },
   methods: {
     transformString() {
-      const char = document.querySelector('.ui-multiline-ellipsis__to-check');
-      const input = document.querySelector('.ui-multiline-ellipsis');
+      const char = this.$refs?.multilineEllipsisToCheck;
+      const text = this.$slots.default[0].text;
+      const input = this.$refs?.multilineEllipsis;
 
       if (!char) {
         return '';
@@ -39,7 +39,7 @@ export default {
       const inputStringNumber = Math.floor(input.clientHeight / charHeight);
       const lettersNumber = inputStringCapacity * inputStringNumber;
 
-      this.styles = this.string.length <= lettersNumber ? {'-webkit-line-clamp': inputStringNumber} : {}
+      this.styles = text.length > lettersNumber ? {'-webkit-line-clamp': inputStringNumber} : {}
     }
   },
 }
