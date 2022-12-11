@@ -1,7 +1,7 @@
 <template>
   <div class="ui-progress-bar" ref="progressBar">
     <div class="ui-progress-bar__cursor" ref="progressBoat" :style="boatPositionStyle">
-      <div class="ui-progress-bar__cursor-value">{{ current }}</div>
+      <div class="ui-progress-bar__cursor-value">{{ current|numberFormat }}</div>
       <img class="ui-progress-bar__cursor-icon" ref="progressBoatImg" src="@/assets/boat.svg" alt="sailboat">
     </div>
     <div class="ui-progress-bar__scale">
@@ -13,9 +13,14 @@
 <script>
 export default {
   name: 'UiProgressBar',
+  filters: {
+    numberFormat: function (value) {
+      return new Intl.NumberFormat('en').format(value);
+    }
+  },
   props: {
-    current: {type: Number, required: true, default: 0},
-    max: {type: Number, required: true, default: 0},
+    current: {type: Number, required: true},
+    max: {type: Number, required: true},
   },
   data() {
     return {
@@ -24,7 +29,8 @@ export default {
     }
   },
   mounted() {
-    this.handleSize();
+    setTimeout(() => this.handleSize(), 100);
+
     window.addEventListener('resize', this.handleSize);
   },
   destroyed() {
@@ -32,10 +38,15 @@ export default {
   },
   methods: {
     handleSize() {
-      const boatWidth = 16;
-      const barWidth = this.$refs?.progressBar?.clientWidth;
+      const {progressBoat, progressBar} = this.$refs;
+      if (!progressBoat || !progressBar) {
+        return;
+      }
 
-      this.boatMovingStart = Math.round((boatWidth / barWidth) * 100);
+      const boatWidth = progressBoat.clientWidth;
+      const barWidth = progressBar.clientWidth;
+
+      this.boatMovingStart = Math.round((boatWidth / barWidth / 2) * 100);
     }
   },
   computed: {
@@ -95,21 +106,25 @@ export default {
 
 .ui-progress-bar__cursor-value {
   font-size: 12px;
+  text-shadow: 0 0 15px #fff8e1;
+  color: #ffcc99;
 }
 
 .ui-progress-bar__cursor-icon {
-  display: inline-block;
+  display: block;
 }
 
 .ui-progress-bar__scale {
   position: relative;
   width: 100%;
-  height: 15px;
-  padding-top: 5px;
+  height: 16px;
+  padding-top: 4px;
+  padding-bottom: 2px;
   overflow: hidden;
 
   &:before {
     content: '';
+    z-index: 1;
     position: absolute;
     top: 0;
     left: 0;
@@ -136,8 +151,18 @@ export default {
 .ui-progress-bar__scale-value {
   position: absolute;
   left: 0;
-  bottom: 0;
+  bottom: 2px;
   height: 10px;
-  background-image: linear-gradient(135deg, #008cbf 0%, #00bbff 100%);
+  background-image: linear-gradient(135deg, #ffb85e 0%, #ffd461 100%);
+
+  &:after {
+    content: '';
+    position: absolute;
+    right: 0;
+    width: 2px;
+    height: 100%;
+    background: #fef1e0;
+    box-shadow: 0 1px 3px #ffd461;
+  }
 }
 </style>

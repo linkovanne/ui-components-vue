@@ -44,7 +44,7 @@ export default {
   data() {
     return {
       currentValue: 0,
-      maxValue: 100,
+      maxValue: 10000,
       multilineEllipsis: `
       <UiMultilineEllipsis>
         Текст компонента Multiline ellipsis
@@ -53,7 +53,7 @@ export default {
       progressBar: `
       <UiProgressBar
         :current="0"
-        :max="100"
+        :max="10000"
       />
       `,
       options: {
@@ -68,7 +68,10 @@ export default {
   },
   methods: {
     recalcProgress() {
-      setInterval(() => this.currentValue >= this.maxValue ? this.currentValue : this.currentValue += 10, 1000);
+      const timerId = setInterval(() => this.currentValue >= this.maxValue ? this.currentValue : this.currentValue += 200, 1000);
+
+      setTimeout(() => clearInterval(timerId), 50000);
+
     }
   }
 }
